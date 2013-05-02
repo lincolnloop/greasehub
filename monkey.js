@@ -39,6 +39,12 @@ contentEval(function() {
 
     // ------------------------------------------------------------------------------
     function applyGreaseHubButton (key, item) {
+
+        // Don't do anything if this is :done
+        if ($(item).hasClass('closed')) {
+            return null;
+        }
+
         var currentState,
             currentStateTag,
             nextState,
@@ -48,6 +54,9 @@ contentEval(function() {
         $('.label', item).each(function(key, item) {
             tagList.push($(item).attr('data-name'));
         });
+
+
+
 
         var ajaxStateChange = function () {
             tagList.push(currentState);
@@ -92,36 +101,36 @@ contentEval(function() {
                 default:
                     break;
             }
+
+            // ------------------------------------------------------------------------------
+            $('.greasehub-trigger').css({
+                'float': 'right',
+                'font-size': '11px',
+                'line-height': '21px',
+                'color': '#fff',
+                'text-shadow': '0px 1px 1px black',
+                'font-weight': 'bold',
+                'margin-left': '15px',
+                'text-transform': 'capitalize'
+            });
+
+            $('.greasehub-trigger.start').css({
+                'background-image': 'linear-gradient(rgb(97, 226, 52), rgb(58, 129, 33))'
+            });
+
+            $('.greasehub-trigger.finish').css({
+                'background-image': 'linear-gradient(rgb(62, 176, 230), rgb(35, 107, 173))'
+            });
+
+            $('.greasehub-trigger.accept').css({
+                'background-image': 'linear-gradient(rgb(93, 231, 50), rgb(18, 148, 13))'
+            });
+
+            $('.greasehub-trigger.reject').css({
+                'background-image': 'linear-gradient(rgb(180, 180, 180), rgb(48, 50, 53))',
+                'margin-left': '2px'
+            });
         };
-
-        // ------------------------------------------------------------------------------
-        $('.greasehub-trigger').css({
-            'float': 'right',
-            'font-size': '11px',
-            'line-height': '21px',
-            'color': '#fff',
-            'text-shadow': '0px 1px 1px black',
-            'font-weight': 'bold',
-            'margin-left': '15px',
-            'text-transform': 'capitalize'
-        });
-
-        $('.greasehub-trigger.start').css({
-            'background-image': 'linear-gradient(rgb(97, 226, 52), rgb(58, 129, 33))'
-        });
-
-        $('.greasehub-trigger.finish').css({
-            'background-image': 'linear-gradient(rgb(62, 176, 230), rgb(35, 107, 173))'
-        });
-
-        $('.greasehub-trigger.accept').css({
-            'background-image': 'linear-gradient(rgb(93, 231, 50), rgb(18, 148, 13))'
-        });
-
-        $('.greasehub-trigger.reject').css({
-            'background-image': 'linear-gradient(rgb(180, 180, 180), rgb(48, 50, 53))',
-            'margin-left': '2px'
-        });
 
         // ------------------------------------------------------------------------------
         $(tagsList).each(function (key, tag) {
@@ -148,7 +157,6 @@ contentEval(function() {
         $(item).delegate('.greasehub-trigger.accept', 'click', function () {
             console.log('.greasehub-trigger.accept');
             // close issue, remove buttons and clear tag
-
             $('.js-issues-list-checkbox', item).trigger('click');
             setTimeout(function(){ $('.js-issues-list-close').trigger('click'); }, 500);
         });
